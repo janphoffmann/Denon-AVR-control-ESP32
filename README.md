@@ -1,5 +1,5 @@
 # Denon_AVR_control
-A fully asynchron Denon AVR control library over Telnet or UART for ESP32
+A fully asynchron Denon® AVR control library over Telnet or UART for ESP32
 
 # Dependecies
 - ESP32 Core 2.0
@@ -33,3 +33,6 @@ Functions to send a command to the AVR:
 - bool set(const char* _command, const char *_value);
 - bool set(const char* _command, int i);
 - String get(const char* _command);
+
+
+Denon Sound United, LLC and Affiliates is registered Trademark 
