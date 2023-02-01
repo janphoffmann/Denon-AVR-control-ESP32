@@ -1,4 +1,4 @@
-# Denon_AVR_control
+# Denon®_AVR_control
 A fully asynchron Denon® AVR control library over Telnet or UART for ESP32
 
 # Dependecies
