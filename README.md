@@ -47,7 +47,7 @@ X3700H.onDenonResponse(denonResponseCallbackFunction);
 
 
 
-Functions to send a command to the AVR:
+##Functions to send a command to the AVR:
 - bool set(const char* _command, const char *_value);
 - bool set(const char* _command, int i);
 - String get(const char* _command);
@@ -60,3 +60,5 @@ X3700H.set(MAIN_VOLUME, UP);
 
 To see a full example have a look at the example.ino file
 
+#LICENCE
+This is published under GNU Lesser Public Lincence
