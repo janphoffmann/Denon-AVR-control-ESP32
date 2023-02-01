@@ -1,5 +1,5 @@
 # Denon_AVR_control
-A fully asynchron Denon® AVR control library over Telnet or UART for ESP32 in Arduino IDE
+A fully asynchron Denon AVR control library over Telnet or UART for ESP32 in Arduino IDE
 
 # Dependecies
 - ESP32 Core 2.0    - https://github.com/espressif/arduino-esp32
