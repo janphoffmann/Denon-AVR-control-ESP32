@@ -1,29 +1,14 @@
 #ifndef DENONAVR_H
 #define DENONAVR_H
 
-
-#include <WiFi.h>
-#include <HardwareSerial.h>
-#include <ESPmDNS.h>
-
 #ifdef ESP32
 #include <WiFi.h>
 #include <AsyncTCP.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
+#include <HardwareSerial.h>
+#include <ESPmDNS.h>
 #else
 #error Platform not supported
 #endif
-
-
-// IPADdress AVR_IP(192.168.1.2)
-// AVR X4400H(CONNECTION_TYPE::TELNET, IP_ADRESS::KNOWN, ...
-//            AVR_IP,  );
-// X4400H.set(Power, ON);
-// X4400H.get(Power);
-// X4400H.set(Volume, UP)
-
 
 typedef std::function<void(void*, AsyncClient*)> ConnHandler;
 typedef std::function<void(void*, AsyncClient*)> DisconnHandler;
