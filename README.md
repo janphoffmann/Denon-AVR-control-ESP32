@@ -1,12 +1,12 @@
 # Denon®_AVR_control
-A fully asynchron Denon® AVR control library over Telnet or UART for ESP32
+A fully asynchron Denon® AVR control library over Telnet or UART for ESP32 in Arduino IDE
 
 # Dependecies
-- ESP32 Core 2.0
-- WiFi.h            - build in in ESP32 Core
-- HardwareSerial.h  - build in in ESP32 Core
-- ESPmDNS.h         - 
-- AsyncTCP.h
+- ESP32 Core 2.0    - https://github.com/espressif/arduino-esp32
+- WiFi.h            - build in in ESP32 Core - https://github.com/espressif/arduino-esp32
+- HardwareSerial.h  - build in in ESP32 Core - https://github.com/espressif/arduino-esp32
+- ESPmDNS.h         - https://github.com/espressif/arduino-esp32
+- AsyncTCP.h        - https://github.com/me-no-dev/AsyncTCP
 
 # Usage
 
