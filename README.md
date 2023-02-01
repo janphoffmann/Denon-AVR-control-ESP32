@@ -1,4 +1,4 @@
-# Denon®_AVR_control
+# Denon_AVR_control
 A fully asynchron Denon® AVR control library over Telnet or UART for ESP32 in Arduino IDE
 
 # Dependecies
@@ -33,6 +33,3 @@ Functions to send a command to the AVR:
 - bool set(const char* _command, const char *_value);
 - bool set(const char* _command, int i);
 - String get(const char* _command);
-
-
-Denon Sound United, LLC and Affiliates is registered Trademark 
