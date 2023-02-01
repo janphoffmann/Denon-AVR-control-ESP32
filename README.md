@@ -16,14 +16,14 @@ Received messages are called in callback functions. If you only want to send Com
 
 There is a Table in the "commands.h" file that has the basic Commands.
 
-Initializing the class is without any constructors.
+##Initializing the class is without any constructors.
 Example:
 
 DENON_AVR X3700H;
 
 
 
-The begin functions (usually called in setup()) are:
+##The begin functions (usually called in setup()) are:
 - bool begin(IPAddress _ip); -> comunication over Telnet with knon IP Adress
 - bool begin(); -> communication over Telnet with unknown IP Adess (DNS lookup)
 - bool begin(HardwareSerial *serialPort); -> communication over UART
@@ -35,7 +35,7 @@ X3700H.begin(avrIP);
 
 
 
-The callback functions are:
+##The callback functions are:
 - void onConnect(ConnHandler callbackFunc); // Telnet only
 - void onDisconnect(DisconnHandler callbackFunc); // Telnet only
 - void onDenonResponse(ResponseHandler callbackFunc); // Telnet & UART
