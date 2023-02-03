@@ -53,7 +53,9 @@ void setup() {
   // use mDNS Discovery to find the IP of a "Denon" on local network
   if(!X4400H.begin(DENON_IP)) X4400H.begin(); 
 
-  // X4400H.set(MAIN_ZONE,ON);
+  X4400H.set(MAIN_ZONE,ON);	//main Zone switches on
+  X4400H.Volume++;		//Volume goes up by 0.5
+  X4400H.Volume+2;		//Volume goes up by 2
 }
 
 void loop() {
