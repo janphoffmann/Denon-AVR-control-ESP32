@@ -7,6 +7,7 @@ A fully asynchron Denon AVR control library over Telnet or UART for ESP32 in Ard
 - HardwareSerial.h  - build in in ESP32 Core - https://github.com/espressif/arduino-esp32
 - ESPmDNS.h         - https://github.com/espressif/arduino-esp32
 - AsyncTCP.h        - https://github.com/me-no-dev/AsyncTCP
+- DenonVolume.h     - included in src folder
 
 # Usage
 
@@ -56,6 +57,15 @@ Example to send a command for Main zone Power on:
 X3700H.set(MAIN_ZONE, ON);
 Example to send command for increasing Volume:
 X3700H.set(MAIN_VOLUME, UP);
+
+As the Volume control is kind of strange, I wrote a DenonVolume Library to help ease of changing Volume:
+To change the Volume now all you have to do is:
+- X3700H.Volume++; //Volume goes up by 0.5
+- X3700H.Volume--; //Volume goes down by 0.5
+- X3700H.Volume+1; //increase Volume by 1
+- X3700H.Volume = 10.5 // set Volume to 10.5
+it is supposed to be very intuitive and again relyes on Callbacks only, so nothing else has to be done and the commands are send to the AVR
+
 
 
 To see a full example have a look at the example.ino file
