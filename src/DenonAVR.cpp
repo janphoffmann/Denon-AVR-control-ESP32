@@ -48,6 +48,10 @@ bool DENON_AVR::begin(HardwareSerial *serialPort){
 }
 
 void DENON_AVR::attachCb(){
+  Volume.onVolChange([=](void*, float *vol){
+    
+    set("MV",*vol);
+  },this);
   if(_conType == conType::TELNET){
     if(_connCallback != NULL) AVClient->onConnect(_connCallback, AVClient);
     if(_denon_response_cb != NULL) AVClient->onData([=](void*, AsyncClient*, void *data, size_t len){
@@ -99,11 +103,17 @@ bool DENON_AVR::set(const char* _command, const char *_value){
   return false;
 }
 
-bool DENON_AVR::set(const char* _command, int i){
-  char buf[20];
-
-  sprintf(buf, "%s%d\r",_command,i);
-
+bool DENON_AVR::set(const char* _command, float is){
+  char buf1[4];
+  int kommazahl = (int)is;
+  is -= (float)kommazahl;
+  is *= (float)10;
+  int a= kommazahl;
+  int b=is;
+  if (is != 0) sprintf(buf1, "%02d%d", a, b); //sprintf(buf, "%02d%d", (int)kommazahl, (int)is)
+  else sprintf(buf1, "%02d", kommazahl);
+  char buf[23];
+  sprintf(buf, "%s%s\r",_command,buf1);
   if(_conType == conType::TELNET){
     if(AVClient->canSend() && AVClient->connected()){
       AVClient->write(buf);
