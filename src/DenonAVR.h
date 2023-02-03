@@ -6,6 +6,7 @@
 #include <AsyncTCP.h>
 #include <HardwareSerial.h>
 #include <ESPmDNS.h>
+#include "DenonVolume.h"
 #else
 #error Platform not supported
 #endif
@@ -22,7 +23,8 @@ class DENON_AVR {
     AsyncClient* AVClient;
     HardwareSerial *_serialPort;
 
-    // DENON_AVR(WiFiClient *av_cli);
+    DenonVolume Volume;
+
     bool begin(IPAddress _ip);
     bool begin();
     bool begin(HardwareSerial *serialPort);
@@ -38,7 +40,7 @@ class DENON_AVR {
     ErrorHandler _conErr_cb = NULL;
 
     bool set(const char* _command, const char *_value);
-    bool set(const char* _command, int i);
+    bool set(const char* _command, float i);
     String get(const char* _command);
 
     bool write(const char* buf, size_t i){
