@@ -1,12 +1,18 @@
 #ifndef DENONAVR_H
 #define DENONAVR_H
 
+#include "DenonVolume.h"
+
 #ifdef ESP32
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <HardwareSerial.h>
 #include <ESPmDNS.h>
-#include "DenonVolume.h"
+#elif defined(ESP8266)
+#include <ESP8266WiFi.h>
+#include <ESPAsyncTCP.h>
+#include <HardwareSerial.h>
+#include <ESPmDNS.h>
 #else
 #error Platform not supported
 #endif
@@ -20,11 +26,14 @@ typedef enum conType{RS232, TELNET};
 
 class DENON_AVR {
   public:
+    DENON_AVR(){}
+    void _volume_feedback(const char *data,size_t len);
+
     AsyncClient* AVClient;
     HardwareSerial *_serialPort;
 
     DenonVolume Volume;
-
+    
     bool begin(IPAddress _ip);
     bool begin();
     bool begin(HardwareSerial *serialPort);
@@ -48,16 +57,16 @@ class DENON_AVR {
         AVClient->write(buf,i);
         return true;
       }
+      return false;
     }      
+    void attachCb();
 
+    int stoi(String i) {
+      return int(i.toInt());
+    }
   private:
     IPAddress avr_ip;
-    conType _conType;
-
-    void attachCb();
-    
+    conType _conType;    
 };
-
-
 
 #endif
