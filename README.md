@@ -58,13 +58,21 @@ X3700H.set(MAIN_ZONE, ON);
 Example to send command for increasing Volume:
 X3700H.set(MAIN_VOLUME, UP);
 
+
+# Volume Control
+
 As the Volume control is kind of strange, I wrote a DenonVolume Library to help ease of changing Volume:
 To change the Volume now all you have to do is:
 - X3700H.Volume++; //Volume goes up by 0.5
 - X3700H.Volume--; //Volume goes down by 0.5
 - X3700H.Volume+1; //increase Volume by 1
 - X3700H.Volume = 10.5 // set Volume to 10.5
+
+The Volume received (either feedback for the new Volume that was sent to AVR or other Volume change coming from AVR) is automatically stored properly, so nothing to do there as well.
+
+
 it is supposed to be very intuitive and again relyes on Callbacks only, so nothing else has to be done and the commands are send to the AVR
+
 
 
 
