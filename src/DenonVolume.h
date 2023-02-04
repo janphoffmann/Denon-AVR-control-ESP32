@@ -1,73 +1,124 @@
-#ifndef DENONAVR_H
-#define DENONAVR_H
+#ifndef DENONVOLUME_H
+#define DENONVOLUME_H
+
+#include <functional>
+
+typedef std::function<void(void*,char* vol)> VolumeHandler;
+
+class DenonVolume{
+  
+
+public:
+  void onVolChange(VolumeHandler callbackFunc, void* arg = 0);
+  VolumeHandler _VolCallback = NULL;
+  void* _VolCallback_arg = NULL;
+
+  DenonVolume()
+    : is(10) {}
+  DenonVolume(float i) {
+    is = i;
+  }
+  float min = 00;
+  float max = 98;
+  float is;
+  char* buf = NULL;
 
 
-#include "DenonVolume.h"
+  void set(int i){is = i;}
 
-#ifdef ESP32
-#include <WiFi.h>
-#include <AsyncTCP.h>
-#include <HardwareSerial.h>
-#include <ESPmDNS.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
-#include <HardwareSerial.h>
-#include <ESPmDNS.h>
-#else
-#error Platform not supported
-#endif
+  DenonVolume& operator++();
+  DenonVolume& operator--();
+  DenonVolume& operator++(int);
+  DenonVolume& operator--(int);
 
-typedef std::function<void(void*, AsyncClient*)> ConnHandler;
-typedef std::function<void(void*, AsyncClient*)> DisconnHandler;
-typedef std::function<void(const char *response, size_t len)> ResponseHandler;
-typedef std::function<void(const char *errorMessage)> ErrorHandler;
+  DenonVolume& operator=(const float& i);
+  DenonVolume& operator=(const int& i);
+  DenonVolume& operator=(const double& i);
+  
+  operator float() {
+    return is;
+  }
+  operator double() {
+    return is;
+  }
+  bool operator>(const int& i) {
+    if ((float)i > is) return false;
+    return true;
+  }
+  bool operator<(const int& i) {
+    if ((float)i > is) return true;
+    return false;
+  }
+  bool operator>(const float& i) {
+    if (i > is) return false;
+    return true;
+  }
+  bool operator<(const float& i) {
+    if (i > is) return true;
+    return false;
+  }
+  bool operator>(const double& i) {
+    if ((float)i > is) return false;
+    return true;
+  }
+  bool operator<(const double& i) {
+    if ((float)i > is) return true;
+    return false;
+  }
 
-typedef enum conType{RS232, TELNET};
+  friend float operator>(const float& i, const DenonVolume& j) {
+    if (i > j.is) return true;
+    return false;
+  }
+  friend float operator<(const float& i, const DenonVolume& j) {
+    if (i < j.is) return true;
+    return false;
+  }
 
-class DENON_AVR {
-  public:
-    DENON_AVR(){}
-    void _volume_feedback(const char *data,size_t len);
+  friend double operator>(const double& i, const DenonVolume& j) {
+    if ((float)i > j.is) return true;
+    return false;
+  }
+  friend double operator<(const double& i, const DenonVolume& j) {
+    if ((float)i < j.is) return true;
+    return false;
+  }
 
-    AsyncClient* AVClient;
-    HardwareSerial *_serialPort;
+  friend int operator>(const int& i, const DenonVolume& j) {
+    if ((float)i > j.is) return true;
+    return false;
+  }
+  friend int operator<(const int& i, const DenonVolume& j) {
+    if ((float)i < j.is) return true;
+    return false;
+  }
 
-    DenonVolume Volume;
-    
-    bool begin(IPAddress _ip);
-    bool begin();
-    bool begin(HardwareSerial *serialPort);
+  friend float operator+(const DenonVolume& j, const float& i) {
+    return j.is + i;
+  }
+  friend float operator+(const DenonVolume& j, const int& i) {
+    return j.is + i;
+  }
+  friend float operator+(const DenonVolume& j, const double& i) {
+    return j.is + i;
+  }
+  friend float operator-(const DenonVolume& j, const double& i) {
+    return j.is - i;
+  }
+  friend float operator-(const DenonVolume& j, const float& i) {
+    return j.is - i;
+  }
+  friend float operator-(const DenonVolume& j, const int& i) {
+    return j.is - i;
+  }
+  DenonVolume& operator+(const int& i);
+  DenonVolume& operator-(const int& i);
+  DenonVolume& operator+(const float& i);
+  DenonVolume& operator-(const float& i);
+  DenonVolume& operator+(const double& i);
+  DenonVolume& operator-(const double& i);
 
-    void onConnect(ConnHandler callbackFunc);
-    void onDisconnect(DisconnHandler callbackFunc);
-    void onDenonResponse(ResponseHandler callbackFunc);
-    void onError(ErrorHandler callbackFunc);
-
-    ConnHandler _connCallback = NULL;
-    DisconnHandler _disconnCallback = NULL;
-    ResponseHandler _denon_response_cb = NULL;
-    ErrorHandler _conErr_cb = NULL;
-
-    bool set(const char* _command, const char *_value);
-    bool set(const char* _command, float i);
-    String get(const char* _command);
-
-    bool write(const char* buf, size_t i){
-      if(AVClient->canSend() && AVClient->connected()){
-        AVClient->write(buf,i);
-        return true;
-      }
-      return false;
-    }      
-    void attachCb();
-
-    int stoi(String i) {
-      return int(i.toInt());
-    }
-  private:
-    IPAddress avr_ip;
-    conType _conType;    
+  char* ToChar();
 };
 
 #endif
