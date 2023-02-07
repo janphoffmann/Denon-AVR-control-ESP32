@@ -74,7 +74,16 @@ The Volume received (either feedback for the new Volume that was sent to AVR or 
 it is supposed to be very intuitive and again relyes on Callbacks only, so nothing else has to be done and the commands are send to the AVR
 
 
-
+# Newest feature: DenonProperties
+- add properties like Power, Input...
+- declare custom callbacks for these properties
+- received values are stored 
+- !! properties have to be created after there is a DENON_AVR object!
+- -> DenonProperties *SamplingRate = new DenonProperties(FS);
+- -> void SamplingRateChanged(int i){}
+- -> in setup: SamplingRate->onStateUpdate(SamplingRateChanged);
+- -> anywhere else: SamplingRate->get(INTEGER));
+- -> SamplingRate->set("441"); // of course, this is just an example..
 
 To see a full example have a look at the example.ino file
 
