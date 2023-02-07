@@ -1,14 +1,17 @@
 /*
 This is an example on how to use the Telnet communication
-
 */
-
 
 #include "commands.h"
 #include "DenonAVR.h"
 
 IPAddress DENON_IP(192,168,2,2);  // If IP of AVR is known
 DENON_AVR X4400H;                 // Instance of class
+
+// Create instances of Properties you want to use 
+// DenonProperties::DenonProperties(const char *);
+DenonProperties *Power = new DenonProperties(MAIN_ZONE); 
+DenonProperties *SamplingRate = new DenonProperties("SSINFAISFSV");
 
 //Callback Functions
 //-------------------------------------------------------------------------------------------------------------------
@@ -29,6 +32,19 @@ void denonResponded(const char *response, size_t len){
   Serial.write(response, len);
   Serial.write('\r');
 }
+//Callback for declared Property 
+void PowerChanged(const char *response, size_t len){	//call as char*
+  Serial.println("Eingang changed to:");
+  Serial.write(response, len);
+  Serial.write('\r');
+  Serial.write('\n');
+}
+void SamplingRateChanged(int i){	// if you want it changed to a number...
+  Serial.println("Fs changed to:");
+  Serial.print(i);
+  Serial.write('\r');
+  Serial.write('\n');
+}
 
 //Standard setup function
 //-------------------------------------------------------------------------------------------------------------------
@@ -48,7 +64,13 @@ void setup() {
   X4400H.onDisconnect(denon_disconnected);
   X4400H.onError(conError);
   X4400H.onDenonResponse(denonResponded);
-
+  
+  //setup callback for properties
+  Power->onStateUpdate(PowerChanged);
+  SamplingRate->onStateUpdate(SamplingRateChanged);
+  
+  
+  
   // Try to connect to AVR @ supplied IPAdress first, if not found
   // use mDNS Discovery to find the IP of a "Denon" on local network
   if(!X4400H.begin(DENON_IP)) X4400H.begin(); 
@@ -56,9 +78,12 @@ void setup() {
   X4400H.set(MAIN_ZONE,ON);	//main Zone switches on
   X4400H.Volume++;		//Volume goes up by 0.5
   X4400H.Volume+2;		//Volume goes up by 2
+  
+  Power->set(ON);
 }
 
 void loop() {
+//not neccessary, only for testing 
   while(Serial.available()){
     size_t l = Serial.available();
     uint8_t b[l];
